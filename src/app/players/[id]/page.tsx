@@ -11,40 +11,28 @@ export default function CharacterSheetGateway() {
   const password = searchParams.get("password") || "";
 
   useEffect(() => {
-    // САМАЯ НАДЁЖНАЯ ПРОВЕРКА НА МОБИЛКУ В 2025 ГОДУ
-    const checkIfMobile = () => {
-      // 1. Ширина экрана — главный критерий
-      if (window.innerWidth <= 1024) return true;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const ua = navigator.userAgent;
 
-      // 2. Touch-экран (почти все телефоны)
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return true;
-
-      // 3. User-Agent (на всякий случай, даже если замаскирован)
-      const ua = navigator.userAgent.toLowerCase();
-      if (/android|iphone|ipad|ipod|mobile|tablet/i.test(ua)) return true;
-
-      return false;
-    };
-
-    const isMobile = checkIfMobile();
-
-    // Формируем правильный путь
-    const version = isMobile ? "mobile" : "desktop";
-    const newPath = `/players/sheet/${version}/${id}?id=${id}&password=${password}`;
-
-    // Редиректим только если ещё не там
-    if (window.location.pathname !== newPath.split("?")[0]) {
-      router.replace(newPath);
+    // ЕСЛИ ШИРИНА МЕНЬШЕ 1024 — ПРИНУДИТЕЛЬНО МОБИЛЬНАЯ ВЕРСИЯ
+    if (width <= 1024) {
+      router.replace(`/players/sheet/mobile/${id}?id=${id}&password=${password}`);
+      return;
     }
+
+    // ИНАЧЕ — ПК
+    router.replace(`/players/sheet/desktop/${id}?id=${id}&password=${password}`);
   }, [router, id, password]);
 
+  // Показываем, что определяем
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-6xl font-black text-purple-500 animate-pulse mb-8">
-          ЦАРЬ ПРОБУЖДАЕТСЯ
-        </div>
-        <div className="text-yellow-400 text-3xl">Определяем устройство...</div>
+    <div className="min-h-screen bg-red-900 flex items-center justify-center text-white text-center p-8">
+      <div>
+        <h1 className="text-6xl font-black mb-8">ДЕБАГ</h1>
+        <p className="text-3xl">Ширина: {typeof window !== 'undefined' ? window.innerWidth : '??'}px</p>
+        <p className="text-3xl mt-4">Через 1 сек — редирект...</p>
       </div>
     </div>
   );
