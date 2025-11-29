@@ -47,10 +47,6 @@ export default function MobileCharacterSheetContent({ id, password }: Props) {
 
   return (
     <>
-      {/* Красная плашка — чтобы ты точно видел, что это мобильная версия */}
-      <div className="fixed top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full z-[9999] font-bold text-sm shadow-lg">
-        МОБИЛЬНАЯ ВЕРСИЯ
-      </div>
 
       <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white pb-32">
         {/* ВЕСЬ ТВОЙ КРАСИВЫЙ ДИЗАЙН — ВСТАВЛЯЙ СЮДА */}
