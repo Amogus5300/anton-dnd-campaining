@@ -1,4 +1,3 @@
-// src/app/players/sheet/[id]/page.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -11,28 +10,39 @@ export default function CharacterSheetGateway() {
   const password = searchParams.get("password") || "";
 
   useEffect(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const ua = navigator.userAgent;
+    // Ждём полной загрузки окна
+    const handleLoad = () => {
+      const width = window.innerWidth;
 
-    // ЕСЛИ ШИРИНА МЕНЬШЕ 1024 — ПРИНУДИТЕЛЬНО МОБИЛЬНАЯ ВЕРСИЯ
-    if (width <= 1024) {
-      router.replace(`/players/sheet/mobile/${id}?id=${id}&password=${password}`);
-      return;
-    }
+      // ЕСЛИ ШИРИНА ≤ 1024 — ЭТО ТЕЛЕФОН. ТОЧКА.
+      if (width <= 1024) {
+        router.replace(`/players/sheet/mobile/${id}?id=${id}&password=${password}`);
+      } else {
+        router.replace(`/players/sheet/desktop/${id}?id=${id}&password=${password}`);
+      }
+    };
 
-    // ИНАЧЕ — ПК
-    router.replace(`/players/sheet/desktop/${id}?id=${id}&password=${password}`);
+    // Запускаем сразу + на всякий случай через 100мс и 500мс
+    handleLoad();
+    const t1 = setTimeout(handleLoad, 100);
+    const t2 = setTimeout(handleLoad, 500);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [router, id, password]);
 
-  // Показываем, что определяем
+  // Красивый экран ожидания
   return (
-    <div className="min-h-screen bg-red-900 flex items-center justify-center text-white text-center p-8">
-      <div>
-        <h1 className="text-6xl font-black mb-8">ДЕБАГ</h1>
-        <p className="text-3xl">Ширина: {typeof window !== 'undefined' ? window.innerWidth : '??'}px</p>
-        <p className="text-3xl mt-4">Через 1 сек — редирект...</p>
+    <div className="fixed inset-0 bg-black flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-6xl font-black text-yellow-500 animate-pulse">
+          ЦАРЬ
+        </div>
+        <div className="text-4xl text-purple-400 mt-4">
+          ВОСКРЕШАЕТСЯ...
+        </div>
       </div>
     </div>
   );

@@ -46,6 +46,9 @@ export default function MobileCharacterSheet() {
   const totalGold = char.coins.gp + char.coins.sp * 0.1 + char.coins.cp * 0.01 + char.coins.pp * 10 + char.coins.ep * 0.5;
 
   return (
+    <div className="fixed top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full z-[9999] font-bold">
+  МОБИЛЬНАЯ ВЕРСИЯ
+
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
       {/* === ВЕРХНЯЯ ЧАСТЬ — ТОТАЛЬНЫЙ РЕВОРК === */}
       <div className="relative pt-4 pb-2 px-4 border-b-4 border-yellow-600 bg-black/50 backdrop-blur-xl">
@@ -173,6 +176,7 @@ export default function MobileCharacterSheet() {
           Полная версия (ПК)
         </a>
       </div>
+    </div>
     </div>
   );
 }
