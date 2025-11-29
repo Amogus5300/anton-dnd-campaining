@@ -11,15 +11,14 @@ export default function CharacterSheetGateway() {
   const password = searchParams.get("password") || "";
 
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-    const isSmallScreen = window.innerWidth <= 1024;
+    // САМАЯ НАДЁЖНАЯ ПРОВЕРКА В 2025 ГОДУ — ТОЛЬКО ПО ШИРИНЕ ЭКРАНА
+    const width = typeof window !== "undefined" ? window.innerWidth : 1920;
 
-    if (isMobile || isSmallScreen) {
-      // Телефон или планшет → мобильная версия
+    if (width <= 1024) {
+      // ЕСЛИ ЭКРАН МАЛЕНЬКИЙ — ПРИНУДИТЕЛЬНО МОБИЛЬНАЯ ВЕРСИЯ
       router.replace(`/players/sheet/mobile/${id}?id=${id}&password=${password}`);
     } else {
-      // Компьютер → полная версия
+      // ЕСЛИ БОЛЬШОЙ — ПОЛНАЯ ВЕРСИЯ
       router.replace(`/players/sheet/desktop/${id}?id=${id}&password=${password}`);
     }
   }, [router, id, password]);
@@ -28,9 +27,11 @@ export default function CharacterSheetGateway() {
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center">
         <div className="text-6xl font-black text-purple-500 animate-pulse mb-8">
-          ЦАРЬ ВОСКРЕШАЕТСЯ
+          ЦАРЬ ОПРЕДЕЛЯЕТ УСТРОЙСТВО
         </div>
-        <div className="text-yellow-400 text-3xl">Определяем устройство...</div>
+        <div className="text-yellow-400 text-3xl">
+          Ширина: {typeof window !== "undefined" ? window.innerWidth : "??"}px
+        </div>
       </div>
     </div>
   );
