@@ -2,10 +2,37 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { generatePDF } from "@/components/CharacterPDF"
+import dynamic from 'next/dynamic';
 import { createPortal } from 'react-dom';
 
+// Создаём обёртку для PDF функции
+const PDFButton = dynamic(
+  () => import("@/components/CharacterPDF").then(mod => {
+    // Возвращаем компонент, который использует функцию generatePDF
+    const PDFButtonComponent = ({ char, onComplete }: { char: Character, onComplete?: () => void }) => {
+      return (
+        <button
+          onClick={async () => {
+            await mod.generatePDF(char);
+            onComplete?.();
+          }}
+          className="px-6 py-3 text-sm font-black text-pink-400 hover:bg-pink-600 hover:text-black transition rounded-lg border-2 border-pink-600/50 hover:border-pink-500 shadow-lg active:scale-95"
+        >
+          Скачать .pdf
+        </button>
+      );
+    };
+    return PDFButtonComponent;
+  }),
+  { ssr: false }
+);
+
+// ... остальной код
+
 // import DiceButton from "@/components/DiceButton"; // если есть — раскомментируй
+
+// В самом верху файла, замените этот импорт:
+// import { generatePDF } from "@/components/CharacterPDF"
 
 const mod = (v: number) => Math.floor((v - 10) / 2);
 
@@ -1088,15 +1115,10 @@ const rollWeaponDamage = (weapon: Weapon) => {
           </button>
 
           {/* Скачать .pdf */}
-          <button 
-  onClick={() => {
-    generatePDF(char!);
-    setShowExportMenu(false);
-  }}
-  className="px-6 py-3 text-sm font-black text-pink-400 hover:bg-pink-600 hover:text-black transition rounded-lg border-2 border-pink-600/50 hover:border-pink-500 shadow-lg active:scale-95"
->
-  Скачать .pdf
-</button>
+          <PDFButton 
+  char={char!} 
+  onComplete={() => setShowExportMenu(false)} 
+/>
 
           {/* Загрузить .pdf */}
           <button 

@@ -1,4 +1,4 @@
-// File: E:\Новая папка\dangenandgragons\website_rework\src\app\campaigns\page.tsx
+// File: E:\Новая папка\dangenandgragons\website_public\anton-dnd-campaining\src\app\campaigns\page.tsx
 import * as entry from '../../../../src/app/campaigns/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

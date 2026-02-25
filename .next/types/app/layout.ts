@@ -1,4 +1,4 @@
-// File: E:\Новая папка\dangenandgragons\website_rework\src\app\layout.tsx
+// File: E:\Новая папка\dangenandgragons\website_public\anton-dnd-campaining\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
