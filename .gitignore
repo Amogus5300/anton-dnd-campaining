@@ -1,0 +1,3 @@
+# Игнорировать нативные модули Windows
+**/*.node
+node_modules/@next/swc-win32-*
